@@ -12,5 +12,6 @@ jobs:
       - name: Comment PR
         uses: thollander/actions-comment-pull-request@v2
         with:
+          github_token: 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
           message: |
             Hello world ! :wave:
