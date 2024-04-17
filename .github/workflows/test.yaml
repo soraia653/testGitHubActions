@@ -1,12 +1,16 @@
 name: Leave Comment on PR
 on: pull_request
+inputs:
+  pr_id:
+    description: 'Pull request ID'
+    required: true
 jobs:
   comment:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/github-script@v6
+      - name: Comment PR
+        id: comment-pr
+        uses: peter-evans/create-or-update-comment@v2
         with:
-          script: |
-            github.rest.issues.createComment({
-              body: '👋 Thanks for reporting!'
-            })
+          issue-number: ${{ inputs.pr_id }}
+          body: "comment PR."
