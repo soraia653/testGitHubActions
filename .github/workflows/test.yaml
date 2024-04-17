@@ -1,10 +1,12 @@
 name: Leave Comment on PR
 on: pull_request
 jobs:
-  comment-on-pr:
+  comment:
     runs-on: ubuntu-latest
     steps:
-      - name: Add comment to PR
-        uses: actions/github-script@v6  # Action to interact with the PR
+      - uses: actions/github-script@v6
         with:
-          script: "Action finished!"  # Comment text
+          script: |
+            github.rest.issues.createComment({
+              body: '👋 Thanks for reporting!'
+            })
