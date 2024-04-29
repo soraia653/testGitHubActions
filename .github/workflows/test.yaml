@@ -1,14 +1,35 @@
-name: CommentPR
+name: CommentPR + Branch Enforcement
 on: pull_request
 
 permissions:
   pull-requests: write
+
+env:
+  # The branch being merged.
+  HEAD_REF: ${{ github.head_ref }}
+  # The target branch.
+  BASE_REF: ${{ github.base_ref }}
 
 jobs:
   example_comment_pr:
     runs-on: ubuntu-latest
     name: An example job to comment a PR
     steps:
+      - name: Enforce Merge Policy
+        id: enforce-policy
+        uses: ncalteen/branch-enforcement@v1.0.1
+        with:
+          policy: |
+            feature/*:dev
+            dev:test
+            test:stg
+            stg:main
+          head_ref: ${{ env.HEAD_REF }}
+          base_ref: ${{ env.BASE_REF }}
+      - name: Policy Passed
+        id: passed
+        run: echo "This PR passed the merge policy."
+        
       - name: Checkout
         uses: actions/checkout@v3
 
